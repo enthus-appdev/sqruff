@@ -30,9 +30,8 @@ file:
     - expression:
       - column_reference:
         - naked_identifier: WITH
-    - expression:
-      - column_reference:
-        - naked_identifier: EXECUTE
+  - statement:
+    - naked_identifier: EXECUTE
     - expression:
       - column_reference:
         - naked_identifier: AS
@@ -43,11 +42,13 @@ file:
       - column_reference:
         - naked_identifier: AS
     - expression:
-      - column_reference:
-        - naked_identifier: BEGIN
+      - data_type:
+        - data_type:
+          - data_type_identifier: BEGIN
     - expression:
-      - column_reference:
-        - naked_identifier: DECLARE
+      - data_type:
+        - data_type:
+          - data_type_identifier: DECLARE
     - expression:
       - parameterized_expression:
         - tsql_variable: '@ISOweek'

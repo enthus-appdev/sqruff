@@ -101,8 +101,9 @@ file:
         - naked_identifier: UNIQUE
     - comma: ','
     - expression:
-      - column_reference:
-        - naked_identifier: DROP
+      - data_type:
+        - data_type:
+          - data_type_identifier: DROP
     - expression:
       - column_reference:
         - naked_identifier: COLUMN
@@ -111,14 +112,16 @@ file:
         - naked_identifier: column_a
     - comma: ','
     - expression:
-      - column_reference:
-        - naked_identifier: DROP
+      - data_type:
+        - data_type:
+          - data_type_identifier: DROP
     - expression:
       - column_reference:
         - naked_identifier: COLUMN
     - expression:
-      - column_reference:
-        - naked_identifier: IF
+      - data_type:
+        - data_type:
+          - data_type_identifier: IF
     - expression:
       - column_reference:
         - naked_identifier: EXISTS
@@ -292,29 +295,6 @@ file:
           - end_bracket: )
   - keyword: GO
   - statement:
-    - alter_table_statement:
-      - alter_table_statement:
-        - keyword: ALTER
-        - keyword: TABLE
-        - table_reference:
-          - object_reference:
-            - naked_identifier: Production
-            - dot: .
-            - naked_identifier: TransactionHistoryArchive
-        - keyword: ALTER
-        - keyword: COLUMN
-        - column_reference:
-          - naked_identifier: rec_number
-        - data_type:
-          - data_type:
-            - data_type_identifier: VARCHAR
-            - bracketed:
-              - start_bracket: (
-              - expression:
-                - numeric_literal: '36'
-              - end_bracket: )
-  - keyword: GO
-  - statement:
     - naked_identifier: ALTER
     - expression:
       - column_reference:
@@ -325,17 +305,33 @@ file:
         - dot: .
         - naked_identifier: TransactionHistoryArchive
     - expression:
-      - column_reference:
-        - naked_identifier: DROP
+      - data_type:
+        - data_type:
+          - data_type_identifier: ALTER
     - expression:
       - column_reference:
-        - naked_identifier: CONSTRAINT
+        - naked_identifier: COLUMN
     - expression:
       - column_reference:
-        - naked_identifier: PK_TransactionHistoryArchive_TransactionID
+        - naked_identifier: rec_number
     - expression:
-      - column_reference:
-        - naked_identifier: ALTER
+      - function:
+        - function_name:
+          - function_name_identifier: VARCHAR
+        - function_contents:
+          - bracketed:
+            - start_bracket: (
+            - expression:
+              - numeric_literal: '36'
+            - end_bracket: )
+    - expression:
+      - data_type:
+        - data_type:
+          - data_type_identifier: GO
+    - expression:
+      - data_type:
+        - data_type:
+          - data_type_identifier: ALTER
     - expression:
       - column_reference:
         - naked_identifier: TABLE
@@ -345,14 +341,38 @@ file:
         - dot: .
         - naked_identifier: TransactionHistoryArchive
     - expression:
-      - column_reference:
-        - naked_identifier: DROP
+      - data_type:
+        - data_type:
+          - data_type_identifier: DROP
     - expression:
       - column_reference:
         - naked_identifier: CONSTRAINT
     - expression:
       - column_reference:
-        - naked_identifier: IF
+        - naked_identifier: PK_TransactionHistoryArchive_TransactionID
+    - expression:
+      - data_type:
+        - data_type:
+          - data_type_identifier: ALTER
+    - expression:
+      - column_reference:
+        - naked_identifier: TABLE
+    - expression:
+      - column_reference:
+        - naked_identifier: Production
+        - dot: .
+        - naked_identifier: TransactionHistoryArchive
+    - expression:
+      - data_type:
+        - data_type:
+          - data_type_identifier: DROP
+    - expression:
+      - column_reference:
+        - naked_identifier: CONSTRAINT
+    - expression:
+      - data_type:
+        - data_type:
+          - data_type_identifier: IF
     - expression:
       - column_reference:
         - naked_identifier: EXISTS
@@ -360,8 +380,9 @@ file:
       - column_reference:
         - naked_identifier: PK_TransactionHistoryArchive_TransactionID
     - expression:
-      - column_reference:
-        - naked_identifier: ALTER
+      - data_type:
+        - data_type:
+          - data_type_identifier: ALTER
     - expression:
       - column_reference:
         - naked_identifier: TABLE
@@ -420,8 +441,9 @@ file:
         - data_type:
           - data_type_identifier: GO
     - expression:
-      - column_reference:
-        - naked_identifier: ALTER
+      - data_type:
+        - data_type:
+          - data_type_identifier: ALTER
     - expression:
       - column_reference:
         - naked_identifier: TABLE
@@ -444,8 +466,9 @@ file:
         - data_type:
           - data_type_identifier: GO
     - expression:
-      - column_reference:
-        - naked_identifier: ALTER
+      - data_type:
+        - data_type:
+          - data_type_identifier: ALTER
     - expression:
       - column_reference:
         - naked_identifier: TABLE
@@ -473,8 +496,9 @@ file:
         - data_type:
           - data_type_identifier: GO
     - expression:
-      - column_reference:
-        - naked_identifier: ALTER
+      - data_type:
+        - data_type:
+          - data_type_identifier: ALTER
     - expression:
       - column_reference:
         - naked_identifier: TABLE
@@ -1242,8 +1266,9 @@ file:
         - data_type:
           - data_type_identifier: ON
     - expression:
-      - column_reference:
-        - naked_identifier: UPDATE
+      - data_type:
+        - data_type:
+          - data_type_identifier: UPDATE
     - expression:
       - column_reference:
         - naked_identifier: CASCADE
@@ -1252,45 +1277,73 @@ file:
         - data_type:
           - data_type_identifier: ON
     - expression:
-      - column_reference:
-        - naked_identifier: DELETE
+      - data_type:
+        - data_type:
+          - data_type_identifier: DELETE
     - expression:
       - column_reference:
         - naked_identifier: CASCADE
   - statement_terminator: ;
   - keyword: GO
   - statement:
-    - alter_table_statement:
-      - alter_table_statement:
-        - keyword: ALTER
-        - keyword: TABLE
-        - table_reference:
-          - object_reference:
-            - naked_identifier: UserData
-        - keyword: DROP
-        - keyword: COLUMN
+    - naked_identifier: ALTER
+    - expression:
+      - column_reference:
+        - naked_identifier: TABLE
+    - expression:
+      - column_reference:
+        - naked_identifier: UserData
+    - expression:
+      - data_type:
+        - data_type:
+          - data_type_identifier: DROP
+    - expression:
+      - column_reference:
+        - naked_identifier: COLUMN
+    - expression:
+      - column_reference:
         - quoted_identifier: '[StrSkill]'
-        - comma: ','
+    - comma: ','
+    - expression:
+      - column_reference:
         - quoted_identifier: '[StrItem]'
-        - comma: ','
+    - comma: ','
+    - expression:
+      - column_reference:
         - quoted_identifier: '[StrSerial]'
   - statement_terminator: ;
   - statement:
-    - alter_table_statement:
-      - alter_table_statement:
-        - keyword: ALTER
-        - keyword: TABLE
-        - table_reference:
-          - object_reference:
-            - naked_identifier: UserData
-        - keyword: DROP
-        - keyword: COLUMN
-        - keyword: IF
-        - keyword: EXISTS
+    - naked_identifier: ALTER
+    - expression:
+      - column_reference:
+        - naked_identifier: TABLE
+    - expression:
+      - column_reference:
+        - naked_identifier: UserData
+    - expression:
+      - data_type:
+        - data_type:
+          - data_type_identifier: DROP
+    - expression:
+      - column_reference:
+        - naked_identifier: COLUMN
+    - expression:
+      - data_type:
+        - data_type:
+          - data_type_identifier: IF
+    - expression:
+      - column_reference:
+        - naked_identifier: EXISTS
+    - expression:
+      - column_reference:
         - naked_identifier: StrSkill
-        - comma: ','
+    - comma: ','
+    - expression:
+      - column_reference:
         - naked_identifier: StrItem
-        - comma: ','
+    - comma: ','
+    - expression:
+      - column_reference:
         - naked_identifier: StrSerial
   - statement_terminator: ;
   - statement:
@@ -1399,8 +1452,9 @@ file:
       - column_reference:
         - quoted_identifier: '[TestTable]'
     - expression:
-      - column_reference:
-        - naked_identifier: DROP
+      - data_type:
+        - data_type:
+          - data_type_identifier: DROP
     - expression:
       - column_reference:
         - naked_identifier: PERIOD

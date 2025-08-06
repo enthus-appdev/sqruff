@@ -6,14 +6,12 @@ file:
       - quoted_identifier: '[Reporting]'
       - dot: .
       - quoted_identifier: '[Load_CLL]'
-    - expression:
-      - column_reference:
-        - naked_identifier: EXECUTE
-    - expression:
-      - column_reference:
-        - naked_identifier: dbo
-        - dot: .
-        - naked_identifier: ProcTestDefaults
+  - statement:
+    - keyword: EXECUTE
+    - object_reference:
+      - naked_identifier: dbo
+      - dot: .
+      - naked_identifier: ProcTestDefaults
     - tsql_variable: '@p2'
     - raw_comparison_operator: =
     - expression:
@@ -152,16 +150,14 @@ file:
     - raw_comparison_operator: =
     - expression:
       - quoted_literal: N'my_object_name'
-    - expression:
-      - column_reference:
-        - naked_identifier: EXEC
+  - statement:
+    - keyword: EXEC
     - tsql_variable: '@pRes'
     - raw_comparison_operator: =
-    - expression:
-      - column_reference:
-        - naked_identifier: dbo
-        - dot: .
-        - naked_identifier: ProcTestDefaults
+    - object_reference:
+      - naked_identifier: dbo
+      - dot: .
+      - naked_identifier: ProcTestDefaults
   - statement_terminator: ;
   - statement:
     - keyword: EXEC

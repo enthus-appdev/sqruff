@@ -436,8 +436,9 @@ file:
             - data_type:
               - data_type_identifier: GO
         - expression:
-          - column_reference:
-            - naked_identifier: INSERT
+          - data_type:
+            - data_type:
+              - data_type_identifier: INSERT
         - expression:
           - function:
             - function_name:

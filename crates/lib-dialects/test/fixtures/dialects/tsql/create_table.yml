@@ -1,67 +1,49 @@
 file:
 - batch:
   - statement:
-    - naked_identifier: CREATE
-    - expression:
-      - column_reference:
-        - naked_identifier: TABLE
-    - expression:
-      - function:
-        - function_name:
-          - quoted_identifier: '[dbo]'
-          - dot: .
-          - quoted_identifier: '[EC DC]'
-        - function_contents:
-          - bracketed:
-            - start_bracket: (
-            - expression:
-              - column_reference:
-                - quoted_identifier: '[Column B]'
-            - expression:
-              - function:
-                - function_name:
+    - create_table_statement:
+      - create_table_statement:
+        - keyword: CREATE
+        - keyword: TABLE
+        - table_reference:
+          - object_reference:
+            - quoted_identifier: '[dbo]'
+            - dot: .
+            - quoted_identifier: '[EC DC]'
+        - bracketed:
+          - start_bracket: (
+          - column_definition:
+            - column_definition:
+              - quoted_identifier: '[Column B]'
+              - data_type:
+                - data_type:
                   - quoted_identifier: '[varchar]'
-                - function_contents:
-                  - bracketed:
-                    - start_bracket: (
-                    - expression:
+                  - bracketed_arguments:
+                    - bracketed:
+                      - start_bracket: (
                       - numeric_literal: '100'
-                    - end_bracket: )
-            - comma: ','
-            - expression:
-              - column_reference:
-                - quoted_identifier: '[ColumnC]'
-            - expression:
-              - function:
-                - function_name:
-                  - function_name_identifier: varchar
-                - function_contents:
-                  - bracketed:
-                    - start_bracket: (
-                    - expression:
-                      - numeric_literal: '100'
-                    - end_bracket: )
-            - comma: ','
-            - expression:
-              - column_reference:
-                - quoted_identifier: '[ColumnDecimal]'
-            - expression:
-              - function:
-                - function_name:
-                  - function_name_identifier: decimal
-                - function_contents:
-                  - bracketed:
-                    - start_bracket: (
-                    - expression:
-                      - numeric_literal: '10'
-                    - comma: ','
-                    - expression:
-                      - numeric_literal: '3'
-                    - end_bracket: )
-            - end_bracket: )
-    - expression:
-      - column_reference:
-        - naked_identifier: CREATE
+                      - end_bracket: )
+          - comma: ','
+          - column_definition:
+            - quoted_identifier: '[ColumnC]'
+            - word: varchar
+            - bracketed:
+              - start_bracket: (
+              - numeric_literal: '100'
+              - end_bracket: )
+          - comma: ','
+          - column_definition:
+            - quoted_identifier: '[ColumnDecimal]'
+            - word: decimal
+            - bracketed:
+              - start_bracket: (
+              - numeric_literal: '10'
+              - comma: ','
+              - numeric_literal: '3'
+              - end_bracket: )
+          - end_bracket: )
+  - statement:
+    - naked_identifier: CREATE
     - expression:
       - column_reference:
         - naked_identifier: TABLE

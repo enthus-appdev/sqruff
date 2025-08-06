@@ -51,8 +51,9 @@ file:
         - statement:
           - naked_identifier: GO
           - expression:
-            - column_reference:
-              - naked_identifier: IF
+            - data_type:
+              - data_type:
+                - data_type_identifier: IF
           - expression:
             - keyword: NOT
             - expression:
@@ -83,8 +84,9 @@ file:
                     - quoted_literal: '''IX_INTER_FOUNDATION_NICE_IC_INTAKE_COUNT'''
                 - end_bracket: )
           - expression:
-            - column_reference:
-              - naked_identifier: CREATE
+            - data_type:
+              - data_type:
+                - data_type_identifier: CREATE
           - expression:
             - column_reference:
               - naked_identifier: NONCLUSTERED
@@ -115,8 +117,9 @@ file:
         - statement:
           - naked_identifier: GO
           - expression:
-            - column_reference:
-              - naked_identifier: IF
+            - data_type:
+              - data_type:
+                - data_type_identifier: IF
           - expression:
             - expression:
               - keyword: EXISTS
@@ -146,8 +149,9 @@ file:
                     - quoted_literal: '''IX_INTER_VIMR_REPRODUCTION_NUMBER'''
                 - end_bracket: )
           - expression:
-            - column_reference:
-              - naked_identifier: CREATE
+            - data_type:
+              - data_type:
+                - data_type_identifier: CREATE
           - expression:
             - column_reference:
               - naked_identifier: CLUSTERED
@@ -178,8 +182,9 @@ file:
         - statement:
           - naked_identifier: GO
           - expression:
-            - column_reference:
-              - naked_identifier: CREATE
+            - data_type:
+              - data_type:
+                - data_type_identifier: CREATE
           - expression:
             - column_reference:
               - naked_identifier: NONCLUSTERED
@@ -234,8 +239,9 @@ file:
         - statement:
           - naked_identifier: GO
           - expression:
-            - column_reference:
-              - naked_identifier: CREATE
+            - data_type:
+              - data_type:
+                - data_type_identifier: CREATE
           - expression:
             - column_reference:
               - naked_identifier: NONCLUSTERED
@@ -273,8 +279,9 @@ file:
         - statement:
           - naked_identifier: GO
           - expression:
-            - column_reference:
-              - naked_identifier: CREATE
+            - data_type:
+              - data_type:
+                - data_type_identifier: CREATE
           - expression:
             - column_reference:
               - naked_identifier: UNIQUE
@@ -318,8 +325,9 @@ file:
         - statement:
           - naked_identifier: GO
           - expression:
-            - column_reference:
-              - naked_identifier: CREATE
+            - data_type:
+              - data_type:
+                - data_type_identifier: CREATE
           - expression:
             - column_reference:
               - naked_identifier: UNIQUE
@@ -396,8 +404,9 @@ file:
         - statement:
           - naked_identifier: GO
           - expression:
-            - column_reference:
-              - naked_identifier: CREATE
+            - data_type:
+              - data_type:
+                - data_type_identifier: CREATE
           - expression:
             - column_reference:
               - naked_identifier: UNIQUE
@@ -473,8 +482,9 @@ file:
         - statement:
           - naked_identifier: GO
           - expression:
-            - column_reference:
-              - naked_identifier: CREATE
+            - data_type:
+              - data_type:
+                - data_type_identifier: CREATE
           - expression:
             - column_reference:
               - naked_identifier: UNIQUE
@@ -541,8 +551,9 @@ file:
               - data_type:
                 - data_type_identifier: GO
           - expression:
-            - column_reference:
-              - naked_identifier: CREATE
+            - data_type:
+              - data_type:
+                - data_type_identifier: CREATE
           - expression:
             - column_reference:
               - naked_identifier: STATISTICS
@@ -579,8 +590,9 @@ file:
               - data_type:
                 - data_type_identifier: GO
           - expression:
-            - column_reference:
-              - naked_identifier: UPDATE
+            - data_type:
+              - data_type:
+                - data_type_identifier: UPDATE
           - expression:
             - column_reference:
               - naked_identifier: STATISTICS
@@ -596,8 +608,9 @@ file:
         - statement:
           - naked_identifier: GO
           - expression:
-            - column_reference:
-              - naked_identifier: UPDATE
+            - data_type:
+              - data_type:
+                - data_type_identifier: UPDATE
           - expression:
             - column_reference:
               - naked_identifier: STATISTICS
@@ -622,8 +635,9 @@ file:
         - statement:
           - naked_identifier: GO
           - expression:
-            - column_reference:
-              - naked_identifier: UPDATE
+            - data_type:
+              - data_type:
+                - data_type_identifier: UPDATE
           - expression:
             - column_reference:
               - naked_identifier: STATISTICS
@@ -654,8 +668,9 @@ file:
         - statement:
           - naked_identifier: GO
           - expression:
-            - column_reference:
-              - naked_identifier: UPDATE
+            - data_type:
+              - data_type:
+                - data_type_identifier: UPDATE
           - expression:
             - column_reference:
               - naked_identifier: STATISTICS
@@ -686,8 +701,9 @@ file:
         - statement:
           - naked_identifier: GO
           - expression:
-            - column_reference:
-              - naked_identifier: DROP
+            - data_type:
+              - data_type:
+                - data_type_identifier: DROP
           - expression:
             - column_reference:
               - naked_identifier: STATISTICS
@@ -703,8 +719,9 @@ file:
               - data_type:
                 - data_type_identifier: GO
           - expression:
-            - column_reference:
-              - naked_identifier: DROP
+            - data_type:
+              - data_type:
+                - data_type_identifier: DROP
           - expression:
             - column_reference:
               - naked_identifier: INDEX

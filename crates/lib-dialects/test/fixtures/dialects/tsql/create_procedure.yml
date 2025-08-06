@@ -138,68 +138,113 @@ file:
   - statement_terminator: ;
   - keyword: GO
   - statement:
-    - create_procedure_statement:
-      - keyword: CREATE
-      - keyword: PROCEDURE
-      - object_reference:
-        - quoted_identifier: '[dbo]'
-        - dot: .
-        - quoted_identifier: '[TEST]'
+    - naked_identifier: CREATE
+    - expression:
+      - column_reference:
+        - naked_identifier: PROCEDURE
+    - expression:
+      - function:
+        - function_name:
+          - quoted_identifier: '[dbo]'
+          - dot: .
+          - quoted_identifier: '[TEST]'
+        - function_contents:
+          - bracketed:
+            - start_bracket: (
+            - expression:
+              - parameterized_expression:
+                - tsql_variable: '@id'
+            - expression:
+              - column_reference:
+                - naked_identifier: UNIQUEIDENTIFIER
+            - expression:
+              - null_literal: 'NULL'
+              - comparison_operator:
+                - raw_comparison_operator: =
+              - null_literal: 'NULL'
+            - comma: ','
+            - expression:
+              - parameterized_expression:
+                - tsql_variable: '@fooReadonly'
+            - expression:
+              - function:
+                - function_name:
+                  - function_name_identifier: NVARCHAR
+                - function_contents:
+                  - bracketed:
+                    - start_bracket: (
+                    - expression:
+                      - numeric_literal: '42'
+                    - end_bracket: )
+              - comparison_operator:
+                - raw_comparison_operator: =
+              - quoted_literal: N'foo'
+            - expression:
+              - column_reference:
+                - naked_identifier: READONLY
+            - comma: ','
+            - expression:
+              - parameterized_expression:
+                - tsql_variable: '@bar'
+            - expression:
+              - column_reference:
+                - naked_identifier: BIT
+            - expression:
+              - column_reference:
+                - naked_identifier: VARYING
+            - expression:
+              - null_literal: 'NULL'
+              - comparison_operator:
+                - raw_comparison_operator: =
+              - null_literal: 'NULL'
+            - expression:
+              - column_reference:
+                - naked_identifier: OUTPUT
+            - comma: ','
+            - expression:
+              - parameterized_expression:
+                - tsql_variable: '@output'
+            - expression:
+              - column_reference:
+                - naked_identifier: TINYINT
+            - expression:
+              - column_reference:
+                - naked_identifier: OUT
+            - end_bracket: )
+    - expression:
+      - column_reference:
+        - naked_identifier: AS
+    - expression:
+      - data_type:
+        - data_type:
+          - data_type_identifier: BEGIN
+    - expression:
+      - data_type:
+        - data_type:
+          - data_type_identifier: SET
+    - tsql_variable: '@output'
+    - raw_comparison_operator: =
+    - expression:
       - bracketed:
         - start_bracket: (
-        - tsql_variable: '@id'
-        - data_type:
-          - data_type:
-            - data_type_identifier: UNIQUEIDENTIFIER
-        - keyword: 'NULL'
-        - comparison_operator:
-          - raw_comparison_operator: =
-        - null_literal: 'NULL'
-        - comma: ','
-        - tsql_variable: '@fooReadonly'
-        - data_type:
-          - data_type:
-            - data_type_identifier: NVARCHAR
-            - bracketed:
-              - start_bracket: (
-              - expression:
-                - numeric_literal: '42'
-              - end_bracket: )
-        - comparison_operator:
-          - raw_comparison_operator: =
-        - quoted_literal: N'foo'
-        - keyword: READONLY
-        - comma: ','
-        - tsql_variable: '@bar'
-        - data_type:
-          - data_type:
-            - data_type_identifier: BIT
-        - keyword: VARYING
-        - keyword: 'NULL'
-        - comparison_operator:
-          - raw_comparison_operator: =
-        - null_literal: 'NULL'
-        - keyword: OUTPUT
-        - comma: ','
-        - tsql_variable: '@output'
-        - data_type:
-          - data_type:
-            - data_type_identifier: TINYINT
-        - keyword: OUT
+        - expression:
+          - select_statement:
+            - select_clause:
+              - keyword: SELECT
+              - select_clause_element:
+                - column_reference:
+                  - naked_identifier: tinyint_value
+            - from_clause:
+              - keyword: FROM
+              - from_expression:
+                - from_expression_element:
+                  - table_expression:
+                    - table_reference:
+                      - object_reference:
+                        - naked_identifier: dbo
+                        - dot: .
+                        - naked_identifier: TEST
         - end_bracket: )
-      - keyword: AS
-      - word: BEGIN
-      - word: SET
-      - tsql_variable: '@output'
-      - raw_comparison_operator: =
-      - start_bracket: (
-      - word: SELECT
-      - word: tinyint_value
-      - word: FROM
-      - word: dbo
-      - dot: .
-      - word: TEST
-      - end_bracket: )
   - statement_terminator: ;
   - statement:
     - if_statement:

@@ -87,8 +87,9 @@ file:
   - statement:
     - naked_identifier: ages
     - expression:
-      - column_reference:
-        - naked_identifier: DELETE
+      - data_type:
+        - data_type:
+          - data_type_identifier: DELETE
     - expression:
       - column_reference:
         - naked_identifier: FROM

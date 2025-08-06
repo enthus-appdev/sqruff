@@ -34,16 +34,25 @@ file:
           - quoted_identifier: '[UN_NEW]'
   - statement_terminator: ;
   - statement:
-    - alter_table_statement:
-      - alter_table_statement:
-        - keyword: ALTER
-        - keyword: TABLE
-        - table_reference:
-          - object_reference:
-            - naked_identifier: table_name
-        - keyword: DROP
-        - keyword: COLUMN
+    - naked_identifier: ALTER
+    - expression:
+      - column_reference:
+        - naked_identifier: TABLE
+    - expression:
+      - column_reference:
+        - naked_identifier: table_name
+    - expression:
+      - data_type:
+        - data_type:
+          - data_type_identifier: DROP
+    - expression:
+      - column_reference:
+        - naked_identifier: COLUMN
+    - expression:
+      - column_reference:
         - naked_identifier: column1
-        - comma: ','
+    - comma: ','
+    - expression:
+      - column_reference:
         - naked_identifier: column2
   - statement_terminator: ;

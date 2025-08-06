@@ -71,7 +71,7 @@ file:
         - dot: .
         - naked_identifier: Address
       - keyword: TO
-      - role_reference:
+      - object_reference:
         - naked_identifier: RosaQdM
   - statement_terminator: ;
   - keyword: GO
@@ -85,7 +85,7 @@ file:
         - dot: .
         - naked_identifier: Address
       - keyword: TO
-      - role_reference:
+      - object_reference:
         - quoted_identifier: '[AdventureWorks2012\RosaQdM]'
   - statement_terminator: ;
   - keyword: GO
@@ -107,7 +107,7 @@ file:
         - dot: .
         - naked_identifier: uspGetBillOfMaterials
       - keyword: TO
-      - role_reference:
+      - object_reference:
         - naked_identifier: newrole
   - statement_terminator: ;
   - keyword: GO

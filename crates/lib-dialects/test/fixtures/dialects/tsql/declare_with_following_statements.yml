@@ -1,19 +1,35 @@
 file:
 - batch:
   - statement:
-    - create_procedure_statement:
-      - keyword: CREATE
-      - keyword: PROC
-      - object_reference:
+    - naked_identifier: CREATE
+    - expression:
+      - column_reference:
+        - naked_identifier: PROC
+    - expression:
+      - column_reference:
         - naked_identifier: Reporting
         - dot: .
         - naked_identifier: DeclareProblem
-      - keyword: AS
-      - word: BEGIN
-      - word: DECLARE
-      - tsql_variable: '@startdate'
-      - word: AS
-      - word: DATE
+    - expression:
+      - column_reference:
+        - naked_identifier: AS
+    - expression:
+      - data_type:
+        - data_type:
+          - data_type_identifier: BEGIN
+    - expression:
+      - data_type:
+        - data_type:
+          - data_type_identifier: DECLARE
+    - expression:
+      - parameterized_expression:
+        - tsql_variable: '@startdate'
+    - expression:
+      - column_reference:
+        - naked_identifier: AS
+    - expression:
+      - column_reference:
+        - naked_identifier: DATE
   - statement_terminator: ;
   - statement:
     - declare_statement:

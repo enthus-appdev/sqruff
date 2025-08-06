@@ -65,8 +65,9 @@ file:
         - statement:
           - naked_identifier: GO
           - expression:
-            - column_reference:
-              - naked_identifier: CREATE
+            - data_type:
+              - data_type:
+                - data_type_identifier: CREATE
           - expression:
             - column_reference:
               - naked_identifier: TABLE
@@ -263,8 +264,9 @@ file:
               - statement:
                 - naked_identifier: GO
                 - expression:
-                  - column_reference:
-                    - naked_identifier: CREATE
+                  - data_type:
+                    - data_type:
+                      - data_type_identifier: CREATE
                 - expression:
                   - column_reference:
                     - naked_identifier: TABLE
@@ -527,8 +529,9 @@ file:
               - statement:
                 - naked_identifier: GO
                 - expression:
-                  - column_reference:
-                    - naked_identifier: CREATE
+                  - data_type:
+                    - data_type:
+                      - data_type_identifier: CREATE
                 - expression:
                   - column_reference:
                     - naked_identifier: CLUSTERED
@@ -560,8 +563,9 @@ file:
                     - data_type:
                       - data_type_identifier: GO
                 - expression:
-                  - column_reference:
-                    - naked_identifier: CREATE
+                  - data_type:
+                    - data_type:
+                      - data_type_identifier: CREATE
                 - expression:
                   - column_reference:
                     - naked_identifier: NONCLUSTERED

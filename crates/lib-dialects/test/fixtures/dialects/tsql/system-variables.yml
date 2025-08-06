@@ -74,8 +74,9 @@ file:
               - statement:
                 - naked_identifier: GO
                 - expression:
-                  - column_reference:
-                    - naked_identifier: PRINT
+                  - data_type:
+                    - data_type:
+                      - data_type_identifier: PRINT
                 - expression:
                   - parameterized_expression:
                     - tsql_variable: '@@TRANCOUNT'

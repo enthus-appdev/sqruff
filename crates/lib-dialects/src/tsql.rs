@@ -4113,7 +4113,49 @@ pub fn raw_dialect() -> Dialect {
         .config(|this| {
             this.terminators = vec_of_erased![
                 Ref::new("DelimiterGrammar"),
-                Ref::new("BatchSeparatorGrammar") // Ensure GO terminates statements
+                Ref::new("BatchSeparatorGrammar"), // Ensure GO terminates statements
+                // Add statement keywords as terminators to handle consecutive statements without semicolons
+                // This allows the parser to properly identify statement boundaries when semicolons are omitted
+                // DML statements
+                Ref::keyword("SELECT"),
+                Ref::keyword("INSERT"),
+                Ref::keyword("UPDATE"),
+                Ref::keyword("DELETE"),
+                // NOTE: MERGE removed from terminators to fix JOIN hint conflicts (INNER MERGE JOIN, etc.)
+                // MERGE statements are properly terminated by other means and MERGE is needed as a JOIN hint
+                // DDL statements
+                Ref::keyword("CREATE"),
+                Ref::keyword("ALTER"),
+                Ref::keyword("DROP"),
+                Ref::keyword("TRUNCATE"),
+                // T-SQL specific statements
+                Ref::keyword("DECLARE"),
+                Ref::keyword("SET"),
+                Ref::keyword("PRINT"),
+                Ref::keyword("EXECUTE"),
+                Ref::keyword("EXEC"),
+                Ref::keyword("IF"),
+                Ref::keyword("WHILE"),
+                Ref::keyword("BEGIN"),
+                // Note: WITH is not included as a terminator because it can appear within statements
+                // (e.g., "WITH TIES" in SELECT TOP, table hints). CTEs are handled separately.
+                // Transaction control
+                Ref::keyword("COMMIT"),
+                Ref::keyword("ROLLBACK"),
+                // Access control
+                Ref::keyword("GRANT"),
+                Ref::keyword("REVOKE"),
+                Ref::keyword("DENY"),
+                // Other common statements
+                Ref::keyword("USE"),
+                Ref::keyword("BULK"),
+                Ref::keyword("RETURN"),
+                Ref::keyword("THROW"),
+                Ref::keyword("RAISERROR"),
+                Ref::keyword("GOTO"),
+                Ref::keyword("WAITFOR"),
+                Ref::keyword("BREAK"),
+                Ref::keyword("CONTINUE")
             ]
         })
         .to_matchable(),
