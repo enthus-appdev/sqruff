@@ -1,0 +1,372 @@
+file:
+- batch:
+  - statement:
+    - insert_statement:
+      - insert_statement:
+        - keyword: INSERT
+        - keyword: INTO
+        - table_reference:
+          - object_reference:
+            - naked_identifier: offer_source
+        - select_statement:
+          - select_clause:
+            - keyword: SELECT
+            - select_clause_element:
+              - wildcard_expression:
+                - wildcard_identifier:
+                  - star: '*'
+          - from_clause:
+            - keyword: FROM
+            - from_expression:
+              - from_expression_element:
+                - table_expression:
+                  - table_reference:
+                    - object_reference:
+                      - naked_identifier: temp_source
+          - unparsable:
+            - word: SELECT
+            - word: id
+            - word: FROM
+            - word: offer_source
+            - word: WHERE
+            - word: active
+            - raw_comparison_operator: =
+            - numeric_literal: '1'
+  - statement:
+    - update_statement:
+      - update_statement:
+        - keyword: UPDATE
+        - table_reference:
+          - object_reference:
+            - naked_identifier: users
+        - set_clause_list:
+          - keyword: SET
+          - set_clause:
+            - set_clause:
+              - column_reference:
+                - naked_identifier: status
+              - raw_comparison_operator: =
+              - expression:
+                - quoted_literal: '''active'''
+        - where_clause:
+          - keyword: WHERE
+          - expression:
+            - column_reference:
+              - naked_identifier: id
+            - comparison_operator:
+              - raw_comparison_operator: =
+            - numeric_literal: '1'
+  - statement:
+    - select_statement:
+      - select_clause:
+        - keyword: SELECT
+        - select_clause_element:
+          - wildcard_expression:
+            - wildcard_identifier:
+              - star: '*'
+      - from_clause:
+        - keyword: FROM
+        - from_expression:
+          - from_expression_element:
+            - table_expression:
+              - table_reference:
+                - object_reference:
+                  - naked_identifier: users
+      - where_clause:
+        - keyword: WHERE
+        - expression:
+          - column_reference:
+            - naked_identifier: status
+          - comparison_operator:
+            - raw_comparison_operator: =
+          - quoted_literal: '''active'''
+  - statement:
+    - delete_statement:
+      - delete_statement:
+        - keyword: DELETE
+        - keyword: FROM
+        - table_reference:
+          - object_reference:
+            - naked_identifier: logs
+        - where_clause:
+          - keyword: WHERE
+          - expression:
+            - column_reference:
+              - naked_identifier: date
+            - comparison_operator:
+              - raw_comparison_operator: <
+            - quoted_literal: '''2024-01-01'''
+  - statement:
+    - insert_statement:
+      - insert_statement:
+        - keyword: INSERT
+        - keyword: INTO
+        - table_reference:
+          - object_reference:
+            - naked_identifier: archive_logs
+        - select_statement:
+          - select_clause:
+            - keyword: SELECT
+            - select_clause_element:
+              - wildcard_expression:
+                - wildcard_identifier:
+                  - star: '*'
+          - from_clause:
+            - keyword: FROM
+            - from_expression:
+              - from_expression_element:
+                - table_expression:
+                  - table_reference:
+                    - object_reference:
+                      - naked_identifier: deleted_logs
+  - statement:
+    - naked_identifier: CREATE
+    - expression:
+      - column_reference:
+        - naked_identifier: TABLE
+    - expression:
+      - function:
+        - function_name:
+          - function_name_identifier: test_table
+        - function_contents:
+          - bracketed:
+            - start_bracket: (
+            - expression:
+              - column_reference:
+                - naked_identifier: id
+            - expression:
+              - column_reference:
+                - naked_identifier: INT
+            - comma: ','
+            - expression:
+              - column_reference:
+                - naked_identifier: name
+            - expression:
+              - function:
+                - function_name:
+                  - function_name_identifier: VARCHAR
+                - function_contents:
+                  - bracketed:
+                    - start_bracket: (
+                    - expression:
+                      - numeric_literal: '50'
+                    - end_bracket: )
+            - end_bracket: )
+    - expression:
+      - column_reference:
+        - naked_identifier: INSERT
+    - expression:
+      - column_reference:
+        - naked_identifier: INTO
+    - expression:
+      - column_reference:
+        - naked_identifier: test_table
+    - expression:
+      - data_type:
+        - data_type:
+          - data_type_identifier: VALUES
+          - bracketed:
+            - start_bracket: (
+            - expression:
+              - numeric_literal: '1'
+            - comma: ','
+            - expression:
+              - quoted_literal: '''Test'''
+            - end_bracket: )
+    - expression:
+      - column_reference:
+        - naked_identifier: INSERT
+    - expression:
+      - column_reference:
+        - naked_identifier: INTO
+    - expression:
+      - column_reference:
+        - naked_identifier: table1
+    - expression:
+      - select_statement:
+        - select_clause:
+          - keyword: SELECT
+          - select_clause_element:
+            - wildcard_expression:
+              - wildcard_identifier:
+                - star: '*'
+        - from_clause:
+          - keyword: FROM
+          - from_expression:
+            - from_expression_element:
+              - table_expression:
+                - table_reference:
+                  - object_reference:
+                    - naked_identifier: source1
+    - expression:
+      - column_reference:
+        - naked_identifier: UPDATE
+    - expression:
+      - column_reference:
+        - naked_identifier: table2
+    - expression:
+      - data_type:
+        - data_type:
+          - data_type_identifier: SET
+    - expression:
+      - column_reference:
+        - naked_identifier: col
+      - comparison_operator:
+        - raw_comparison_operator: =
+      - numeric_literal: '1'
+    - expression:
+      - column_reference:
+        - naked_identifier: WHERE
+    - expression:
+      - column_reference:
+        - naked_identifier: id
+      - comparison_operator:
+        - raw_comparison_operator: =
+      - numeric_literal: '2'
+    - expression:
+      - column_reference:
+        - naked_identifier: DELETE
+    - expression:
+      - column_reference:
+        - naked_identifier: FROM
+    - expression:
+      - column_reference:
+        - naked_identifier: table3
+    - expression:
+      - column_reference:
+        - naked_identifier: WHERE
+    - expression:
+      - column_reference:
+        - naked_identifier: status
+      - comparison_operator:
+        - raw_comparison_operator: =
+      - numeric_literal: '0'
+    - expression:
+      - select_statement:
+        - select_clause:
+          - keyword: SELECT
+          - select_clause_element:
+            - function:
+              - function_name:
+                - function_name_identifier: COUNT
+              - function_contents:
+                - bracketed:
+                  - start_bracket: (
+                  - star: '*'
+                  - end_bracket: )
+        - from_clause:
+          - keyword: FROM
+          - from_expression:
+            - from_expression_element:
+              - table_expression:
+                - table_reference:
+                  - object_reference:
+                    - naked_identifier: table1
+    - expression:
+      - column_reference:
+        - naked_identifier: DECLARE
+    - expression:
+      - parameterized_expression:
+        - tsql_variable: '@var'
+    - expression:
+      - column_reference:
+        - naked_identifier: INT
+      - comparison_operator:
+        - raw_comparison_operator: =
+      - numeric_literal: '10'
+    - expression:
+      - data_type:
+        - data_type:
+          - data_type_identifier: SET
+    - tsql_variable: '@var'
+    - raw_comparison_operator: =
+    - expression:
+      - numeric_literal: '20'
+    - expression:
+      - select_statement:
+        - select_clause:
+          - keyword: SELECT
+          - select_clause_element:
+            - tsql_variable: '@var'
+            - alias_expression:
+              - keyword: AS
+              - naked_identifier: result
+    - expression:
+      - column_reference:
+        - naked_identifier: CREATE
+    - expression:
+      - column_reference:
+        - naked_identifier: TABLE
+    - expression:
+      - function:
+        - function_name:
+          - function_name_identifier: new_table
+        - function_contents:
+          - bracketed:
+            - start_bracket: (
+            - expression:
+              - column_reference:
+                - naked_identifier: id
+            - expression:
+              - column_reference:
+                - naked_identifier: INT
+            - end_bracket: )
+    - expression:
+      - column_reference:
+        - naked_identifier: INSERT
+    - expression:
+      - column_reference:
+        - naked_identifier: INTO
+    - expression:
+      - column_reference:
+        - naked_identifier: new_table
+    - expression:
+      - data_type:
+        - data_type:
+          - data_type_identifier: VALUES
+          - bracketed:
+            - start_bracket: (
+            - expression:
+              - numeric_literal: '1'
+            - end_bracket: )
+    - expression:
+      - column_reference:
+        - naked_identifier: UPDATE
+    - expression:
+      - column_reference:
+        - naked_identifier: new_table
+    - expression:
+      - data_type:
+        - data_type:
+          - data_type_identifier: SET
+    - expression:
+      - column_reference:
+        - naked_identifier: id
+      - comparison_operator:
+        - raw_comparison_operator: =
+      - numeric_literal: '2'
+    - expression:
+      - select_statement:
+        - select_clause:
+          - keyword: SELECT
+          - select_clause_element:
+            - wildcard_expression:
+              - wildcard_identifier:
+                - star: '*'
+        - from_clause:
+          - keyword: FROM
+          - from_expression:
+            - from_expression_element:
+              - table_expression:
+                - table_reference:
+                  - object_reference:
+                    - naked_identifier: new_table
+    - expression:
+      - column_reference:
+        - naked_identifier: DROP
+    - expression:
+      - column_reference:
+        - naked_identifier: TABLE
+    - expression:
+      - column_reference:
+        - naked_identifier: new_table
