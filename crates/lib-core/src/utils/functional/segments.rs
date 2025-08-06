@@ -74,6 +74,11 @@ impl Segments {
         self.base.pop().unwrap()
     }
 
+    /// Safe version of pop that returns None if the segments is empty
+    pub fn try_pop(&mut self) -> Option<ErasedSegment> {
+        self.base.pop()
+    }
+
     pub fn all(&self, predicate: PredicateType) -> bool {
         self.base
             .iter()
@@ -175,11 +180,13 @@ impl Segments {
         stop_seg: Option<&ErasedSegment>,
     ) -> Segments {
         let start_index = start_seg
-            .map(|seg| self.base.iter().position(|x| x == seg).unwrap() as isize)
+            .and_then(|seg| self.base.iter().position(|x| x == seg))
+            .map(|pos| pos as isize)
             .unwrap_or(-1);
 
         let stop_index = stop_seg
-            .map(|seg| self.base.iter().position(|x| x == seg).unwrap() as isize)
+            .and_then(|seg| self.base.iter().position(|x| x == seg))
+            .map(|pos| pos as isize)
             .unwrap_or_else(|| self.base.len() as isize);
 
         let mut buff = Vec::new();

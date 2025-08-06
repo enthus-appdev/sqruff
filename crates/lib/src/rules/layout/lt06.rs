@@ -56,18 +56,24 @@ FROM foo
         let segment = FunctionalContext::new(context).segment();
         let children = segment.children(None);
 
-        let function_name = children
+        let function_name_segments = children
             .find_first(Some(|segment: &ErasedSegment| {
                 segment.is_type(SyntaxKind::FunctionName)
-            }))
-            .pop();
-        let function_contents = children
+            }));
+        let function_contents_segments = children
             .find_first(Some(|segment: &ErasedSegment| {
                 segment.is_type(SyntaxKind::FunctionContents)
-            }))
-            .pop();
+            }));
 
-        let mut intermediate_segments = children.select::<fn(&ErasedSegment) -> bool>(
+        // Check if we have both function name and contents
+        if function_name_segments.is_empty() || function_contents_segments.is_empty() {
+            return vec![];
+        }
+
+        let function_name = function_name_segments.first().unwrap().clone();
+        let function_contents = function_contents_segments.first().unwrap().clone();
+
+        let intermediate_segments = children.select::<fn(&ErasedSegment) -> bool>(
             None,
             None,
             Some(&function_name),
@@ -89,7 +95,7 @@ FROM foo
                 )]
             } else {
                 vec![LintResult::new(
-                    intermediate_segments.pop().into(),
+                    intermediate_segments.last().cloned(),
                     vec![],
                     None,
                     None,

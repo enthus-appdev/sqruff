@@ -114,10 +114,15 @@ from fancy_table
                 return Vec::new();
             }
 
-            let condition_expression =
-                when_clauses.children(Some(|it| it.is_type(SyntaxKind::Expression)))[0].clone();
-            let then_expression =
-                when_clauses.children(Some(|it| it.is_type(SyntaxKind::Expression)))[1].clone();
+            let expressions = when_clauses.children(Some(|it| it.is_type(SyntaxKind::Expression)));
+            
+            // Ensure we have at least 2 expressions (condition and then)
+            if expressions.len() < 2 {
+                return Vec::new();
+            }
+            
+            let condition_expression = expressions[0].clone();
+            let then_expression = expressions[1].clone();
 
             if !else_clauses.is_empty() {
                 if let Some(else_expression) = else_clauses
@@ -196,9 +201,14 @@ from fancy_table
                 };
 
                 if !else_clauses.is_empty() {
-                    let else_expression = else_clauses
-                        .children(Some(|it| it.is_type(SyntaxKind::Expression)))[0]
-                        .clone();
+                    let else_expressions = else_clauses
+                        .children(Some(|it| it.is_type(SyntaxKind::Expression)));
+                    
+                    if else_expressions.is_empty() {
+                        return Vec::new();
+                    }
+                    
+                    let else_expression = else_expressions[0].clone();
 
                     let (coalesce_arg_1, coalesce_arg_2) = if !is_not_prefix
                         && column_reference_segment_raw_upper
