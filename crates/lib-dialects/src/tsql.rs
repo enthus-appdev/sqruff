@@ -540,7 +540,26 @@ pub fn raw_dialect() -> Dialect {
         .into(),
     )]);
 
-    // Override Expression_C_Grammar to handle EXISTS functions and prioritize CaseExpressionSegment
+    // Add T-SQL specific AT TIME ZONE grammar (SQL Server 2016+)
+    // This supports timezone conversions: expression AT TIME ZONE 'timezone_name'
+    dialect.add([(
+        "TimeZoneGrammar".into(),
+        NodeMatcher::new(SyntaxKind::TimeZoneGrammar, |_| {
+            Sequence::new(vec_of_erased![
+                Ref::keyword("AT"),
+                Ref::keyword("TIME"),
+                Ref::keyword("ZONE"),
+                // T-SQL accepts string literals for timezone names
+                // e.g., 'UTC', 'Central European Standard Time', 'Pacific Standard Time'
+                Ref::new("QuotedLiteralSegment")
+            ])
+            .to_matchable()
+        })
+        .to_matchable()
+        .into(),
+    )]);
+
+    // Override Expression_C_Grammar to handle EXISTS functions, CaseExpressionSegment, and AT TIME ZONE
     dialect.add([(
         "Expression_C_Grammar".into(),
         one_of(vec_of_erased![
@@ -553,6 +572,18 @@ pub fn raw_dialect() -> Dialect {
             ]),
             // Put CaseExpressionSegment SECOND
             Ref::new("CaseExpressionSegment"),
+            // Support for AT TIME ZONE operator (SQL Server 2016+)
+            // This allows expressions like: dt_column AT TIME ZONE 'UTC'
+            Sequence::new(vec_of_erased![
+                one_of(vec_of_erased![
+                    Ref::new("Expression_D_Grammar"),
+                    Ref::new("CaseExpressionSegment")
+                ]),
+                AnyNumberOf::new(vec_of_erased![
+                    Ref::new("TimeZoneGrammar")
+                ])
+                .config(|this| this.optional())
+            ]),
             Ref::new("Expression_D_Grammar"),
         ])
         .to_matchable()
