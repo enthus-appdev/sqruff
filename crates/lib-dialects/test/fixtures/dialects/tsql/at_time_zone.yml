@@ -6,8 +6,57 @@ file:
         - keyword: SELECT
         - select_clause_element:
           - expression:
+            - function:
+              - function_name:
+                - function_name_identifier: GETDATE
+              - function_contents:
+                - bracketed:
+                  - start_bracket: (
+                  - end_bracket: )
+            - time_zone_grammar:
+              - keyword: AT
+              - keyword: TIME
+              - keyword: ZONE
+              - quoted_literal: '''UTC'''
+  - statement_terminator: ;
+  - statement:
+    - select_statement:
+      - select_clause:
+        - keyword: SELECT
+        - select_clause_element:
+          - expression:
             - column_reference:
-              - naked_identifier: dt_inserted
+              - naked_identifier: order_date
+            - time_zone_grammar:
+              - keyword: AT
+              - keyword: TIME
+              - keyword: ZONE
+              - quoted_literal: '''Eastern Standard Time'''
+      - from_clause:
+        - keyword: FROM
+        - from_expression:
+          - from_expression_element:
+            - table_expression:
+              - table_reference:
+                - object_reference:
+                  - naked_identifier: orders
+  - statement_terminator: ;
+  - statement:
+    - select_statement:
+      - select_clause:
+        - keyword: SELECT
+        - select_clause_element:
+          - column_reference:
+            - naked_identifier: meeting_id
+        - comma: ','
+        - select_clause_element:
+          - column_reference:
+            - naked_identifier: scheduled_time
+        - comma: ','
+        - select_clause_element:
+          - expression:
+            - column_reference:
+              - naked_identifier: scheduled_time
             - time_zone_grammar:
               - keyword: AT
               - keyword: TIME
@@ -16,34 +65,29 @@ file:
           - alias_expression:
             - keyword: AS
             - naked_identifier: utc_time
-      - from_clause:
-        - keyword: FROM
-        - from_expression:
-          - from_expression_element:
-            - table_expression:
-              - table_reference:
-                - object_reference:
-                  - naked_identifier: shipment
-  - statement_terminator: ;
-  - statement:
-    - select_statement:
-      - select_clause:
-        - keyword: SELECT
+        - comma: ','
         - select_clause_element:
           - expression:
-            - column_reference:
-              - naked_identifier: ShipmentDate
-            - comparison_operator:
-              - raw_comparison_operator: =
-            - column_reference:
-              - naked_identifier: shipment
-              - dot: .
-              - naked_identifier: dt_inserted
+            - function:
+              - function:
+                - function_name_identifier: DATEADD
+                - bracketed:
+                  - start_bracket: (
+                  - keyword: HOUR
+                  - comma: ','
+                  - numeric_literal: '2'
+                  - comma: ','
+                  - column_reference:
+                    - naked_identifier: scheduled_time
+                  - end_bracket: )
             - time_zone_grammar:
               - keyword: AT
               - keyword: TIME
               - keyword: ZONE
-              - quoted_literal: '''Central European Standard Time'''
+              - quoted_literal: '''Pacific Standard Time'''
+          - alias_expression:
+            - keyword: AS
+            - naked_identifier: adjusted_pst
       - from_clause:
         - keyword: FROM
         - from_expression:
@@ -51,7 +95,69 @@ file:
             - table_expression:
               - table_reference:
                 - object_reference:
-                  - naked_identifier: shipment
+                  - naked_identifier: meetings
+      - where_clause:
+        - keyword: WHERE
+        - expression:
+          - column_reference:
+            - naked_identifier: scheduled_time
+          - time_zone_grammar:
+            - keyword: AT
+            - keyword: TIME
+            - keyword: ZONE
+            - quoted_literal: '''UTC'''
+          - keyword: BETWEEN
+          - quoted_literal: '''2024-01-01'''
+          - keyword: AND
+          - quoted_literal: '''2024-12-31'''
+  - statement_terminator: ;
+  - statement:
+    - select_statement:
+      - select_clause:
+        - keyword: SELECT
+        - select_clause_element:
+          - function:
+            - function:
+              - function_name_identifier: CONVERT
+              - bracketed:
+                - start_bracket: (
+                - data_type:
+                  - data_type:
+                    - data_type_identifier: VARCHAR
+                    - bracketed:
+                      - start_bracket: (
+                      - expression:
+                        - numeric_literal: '20'
+                      - end_bracket: )
+                - comma: ','
+                - function:
+                  - function_name:
+                    - function_name_identifier: SYSDATETIMEOFFSET
+                  - function_contents:
+                    - bracketed:
+                      - start_bracket: (
+                      - end_bracket: )
+                - time_zone_grammar:
+                  - keyword: AT
+                  - keyword: TIME
+                  - keyword: ZONE
+                  - quoted_literal: '''Mountain Standard Time'''
+                - comma: ','
+                - numeric_literal: '120'
+                - end_bracket: )
+          - alias_expression:
+            - keyword: AS
+            - naked_identifier: formatted_mst
+      - from_clause:
+        - keyword: FROM
+        - from_expression:
+          - from_expression_element:
+            - table_expression:
+              - table_reference:
+                - object_reference:
+                  - naked_identifier: sys
+                  - dot: .
+                  - naked_identifier: tables
   - statement_terminator: ;
   - statement:
     - select_statement:
@@ -60,7 +166,7 @@ file:
         - select_clause_element:
           - expression:
             - column_reference:
-              - naked_identifier: OrderDate
+              - naked_identifier: event_timestamp
             - time_zone_grammar:
               - keyword: AT
               - keyword: TIME
@@ -70,10 +176,10 @@ file:
               - keyword: AT
               - keyword: TIME
               - keyword: ZONE
-              - quoted_literal: '''Central European Standard Time'''
+              - quoted_literal: '''UTC'''
           - alias_expression:
             - keyword: AS
-            - naked_identifier: converted_time
+            - naked_identifier: double_converted
       - from_clause:
         - keyword: FROM
         - from_expression:
@@ -81,7 +187,113 @@ file:
             - table_expression:
               - table_reference:
                 - object_reference:
-                  - naked_identifier: orders
+                  - naked_identifier: events
+  - statement_terminator: ;
+  - statement:
+    - select_statement:
+      - select_clause:
+        - keyword: SELECT
+        - select_clause_element:
+          - expression:
+            - column_reference:
+              - naked_identifier: log_time
+            - time_zone_grammar:
+              - keyword: AT
+              - keyword: TIME
+              - keyword: ZONE
+              - quoted_literal: '''Central Standard Time'''
+            - time_zone_grammar:
+              - keyword: AT
+              - keyword: TIME
+              - keyword: ZONE
+              - quoted_literal: '''UTC'''
+            - time_zone_grammar:
+              - keyword: AT
+              - keyword: TIME
+              - keyword: ZONE
+              - quoted_literal: '''Tokyo Standard Time'''
+          - alias_expression:
+            - keyword: AS
+            - naked_identifier: tokyo_time
+      - from_clause:
+        - keyword: FROM
+        - from_expression:
+          - from_expression_element:
+            - table_expression:
+              - table_reference:
+                - object_reference:
+                  - naked_identifier: system_logs
+  - statement_terminator: ;
+  - statement:
+    - select_statement:
+      - select_clause:
+        - keyword: SELECT
+        - select_clause_element:
+          - column_reference:
+            - naked_identifier: a
+            - dot: .
+            - naked_identifier: event_id
+        - comma: ','
+        - select_clause_element:
+          - column_reference:
+            - naked_identifier: b
+            - dot: .
+            - naked_identifier: response_id
+      - from_clause:
+        - keyword: FROM
+        - from_expression:
+          - from_expression_element:
+            - table_expression:
+              - table_reference:
+                - object_reference:
+                  - naked_identifier: event_log
+            - alias_expression:
+              - naked_identifier: a
+          - join_clause:
+            - keyword: INNER
+            - keyword: JOIN
+            - from_expression_element:
+              - table_expression:
+                - table_reference:
+                  - object_reference:
+                    - naked_identifier: response_log
+              - alias_expression:
+                - naked_identifier: b
+            - join_on_condition:
+              - join_on_condition:
+                - keyword: ON
+                - expression:
+                  - column_reference:
+                    - naked_identifier: a
+                    - dot: .
+                    - naked_identifier: event_time
+                  - time_zone_grammar:
+                    - keyword: AT
+                    - keyword: TIME
+                    - keyword: ZONE
+                    - quoted_literal: '''UTC'''
+                  - comparison_operator:
+                    - raw_comparison_operator: =
+                  - column_reference:
+                    - naked_identifier: b
+                    - dot: .
+                    - naked_identifier: response_time
+                  - time_zone_grammar:
+                    - keyword: AT
+                    - keyword: TIME
+                    - keyword: ZONE
+                    - quoted_literal: '''UTC'''
+                  - binary_operator: AND
+                  - column_reference:
+                    - naked_identifier: a
+                    - dot: .
+                    - naked_identifier: category
+                  - comparison_operator:
+                    - raw_comparison_operator: =
+                  - column_reference:
+                    - naked_identifier: b
+                    - dot: .
+                    - naked_identifier: category
   - statement_terminator: ;
   - statement:
     - select_statement:
@@ -98,20 +310,176 @@ file:
             - table_expression:
               - table_reference:
                 - object_reference:
-                  - naked_identifier: events
-      - where_clause:
-        - keyword: WHERE
-        - expression:
+                  - naked_identifier: headquarters
+            - alias_expression:
+              - naked_identifier: h
+          - join_clause:
+            - keyword: LEFT
+            - keyword: JOIN
+            - from_expression_element:
+              - table_expression:
+                - table_reference:
+                  - object_reference:
+                    - naked_identifier: branches
+              - alias_expression:
+                - naked_identifier: b
+            - join_on_condition:
+              - join_on_condition:
+                - keyword: ON
+                - expression:
+                  - column_reference:
+                    - naked_identifier: h
+                    - dot: .
+                    - naked_identifier: close_time
+                  - time_zone_grammar:
+                    - keyword: AT
+                    - keyword: TIME
+                    - keyword: ZONE
+                    - quoted_literal: '''Eastern Standard Time'''
+                  - comparison_operator:
+                    - raw_comparison_operator: '>'
+                  - column_reference:
+                    - naked_identifier: b
+                    - dot: .
+                    - naked_identifier: open_time
+                  - time_zone_grammar:
+                    - keyword: AT
+                    - keyword: TIME
+                    - keyword: ZONE
+                    - quoted_literal: '''Pacific Standard Time'''
+  - statement_terminator: ;
+  - statement:
+    - select_statement:
+      - select_clause:
+        - keyword: SELECT
+        - select_clause_element:
           - column_reference:
-            - naked_identifier: event_time
-          - time_zone_grammar:
-            - keyword: AT
-            - keyword: TIME
-            - keyword: ZONE
-            - quoted_literal: '''UTC'''
-          - comparison_operator:
-            - raw_comparison_operator: '>'
-          - quoted_literal: '''2024-01-01 00:00:00'''
+            - naked_identifier: order_id
+        - comma: ','
+        - select_clause_element:
+          - case_expression:
+            - keyword: CASE
+            - keyword: WHEN
+            - expression:
+              - column_reference:
+                - naked_identifier: region
+              - comparison_operator:
+                - raw_comparison_operator: =
+              - quoted_literal: '''US_WEST'''
+            - keyword: THEN
+            - expression:
+              - column_reference:
+                - naked_identifier: order_time
+              - time_zone_grammar:
+                - keyword: AT
+                - keyword: TIME
+                - keyword: ZONE
+                - quoted_literal: '''Pacific Standard Time'''
+            - keyword: WHEN
+            - expression:
+              - column_reference:
+                - naked_identifier: region
+              - comparison_operator:
+                - raw_comparison_operator: =
+              - quoted_literal: '''US_EAST'''
+            - keyword: THEN
+            - expression:
+              - column_reference:
+                - naked_identifier: order_time
+              - time_zone_grammar:
+                - keyword: AT
+                - keyword: TIME
+                - keyword: ZONE
+                - quoted_literal: '''Eastern Standard Time'''
+            - keyword: WHEN
+            - expression:
+              - column_reference:
+                - naked_identifier: region
+              - comparison_operator:
+                - raw_comparison_operator: =
+              - quoted_literal: '''EU'''
+            - keyword: THEN
+            - expression:
+              - column_reference:
+                - naked_identifier: order_time
+              - time_zone_grammar:
+                - keyword: AT
+                - keyword: TIME
+                - keyword: ZONE
+                - quoted_literal: '''Central European Standard Time'''
+            - else_clause:
+              - keyword: ELSE
+              - expression:
+                - column_reference:
+                  - naked_identifier: order_time
+                - time_zone_grammar:
+                  - keyword: AT
+                  - keyword: TIME
+                  - keyword: ZONE
+                  - quoted_literal: '''UTC'''
+            - keyword: END
+          - alias_expression:
+            - keyword: AS
+            - naked_identifier: local_time
+      - from_clause:
+        - keyword: FROM
+        - from_expression:
+          - from_expression_element:
+            - table_expression:
+              - table_reference:
+                - object_reference:
+                  - naked_identifier: global_orders
+  - statement_terminator: ;
+  - statement:
+    - select_statement:
+      - select_clause:
+        - keyword: SELECT
+        - select_clause_element:
+          - case_expression:
+            - keyword: CASE
+            - keyword: WHEN
+            - expression:
+              - function:
+                - function_name:
+                  - function_name_identifier: DATEPART
+                - function_contents:
+                  - bracketed:
+                    - start_bracket: (
+                    - datetime_type_identifier:
+                      - datetime_type_identifier: HOUR
+                    - comma: ','
+                    - expression:
+                      - column_reference:
+                        - naked_identifier: event_time
+                      - time_zone_grammar:
+                        - keyword: AT
+                        - keyword: TIME
+                        - keyword: ZONE
+                        - quoted_literal: '''UTC'''
+                    - end_bracket: )
+              - comparison_operator:
+                - raw_comparison_operator: '>'
+                - raw_comparison_operator: =
+              - numeric_literal: '12'
+            - keyword: THEN
+            - expression:
+              - quoted_literal: '''Afternoon'''
+            - else_clause:
+              - keyword: ELSE
+              - expression:
+                - quoted_literal: '''Morning'''
+            - keyword: END
+          - alias_expression:
+            - keyword: AS
+            - naked_identifier: time_of_day
+      - from_clause:
+        - keyword: FROM
+        - from_expression:
+          - from_expression_element:
+            - table_expression:
+              - table_reference:
+                - object_reference:
+                  - naked_identifier: events
   - statement_terminator: ;
   - statement:
     - select_statement:
@@ -120,26 +488,55 @@ file:
         - select_clause_element:
           - function:
             - function_name:
-              - function_name_identifier: CAST
+              - function_name_identifier: DATE
             - function_contents:
               - bracketed:
                 - start_bracket: (
                 - expression:
                   - column_reference:
-                    - naked_identifier: created_at
+                    - naked_identifier: transaction_time
+                  - time_zone_grammar:
+                    - keyword: AT
+                    - keyword: TIME
+                    - keyword: ZONE
+                    - quoted_literal: '''UTC'''
+                - end_bracket: )
+          - alias_expression:
+            - keyword: AS
+            - naked_identifier: transaction_date
+        - comma: ','
+        - select_clause_element:
+          - function:
+            - function_name:
+              - function_name_identifier: COUNT
+            - function_contents:
+              - bracketed:
+                - start_bracket: (
+                - star: '*'
+                - end_bracket: )
+          - alias_expression:
+            - keyword: AS
+            - naked_identifier: daily_count
+        - comma: ','
+        - select_clause_element:
+          - function:
+            - function_name:
+              - function_name_identifier: MAX
+            - function_contents:
+              - bracketed:
+                - start_bracket: (
+                - expression:
+                  - column_reference:
+                    - naked_identifier: transaction_time
                   - time_zone_grammar:
                     - keyword: AT
                     - keyword: TIME
                     - keyword: ZONE
                     - quoted_literal: '''Eastern Standard Time'''
-                - keyword: AS
-                - data_type:
-                  - data_type:
-                    - data_type_identifier: DATE
                 - end_bracket: )
           - alias_expression:
             - keyword: AS
-            - naked_identifier: eastern_date
+            - naked_identifier: last_transaction_est
       - from_clause:
         - keyword: FROM
         - from_expression:
@@ -148,88 +545,60 @@ file:
               - table_reference:
                 - object_reference:
                   - naked_identifier: transactions
-  - statement_terminator: ;
-  - statement:
-    - select_statement:
-      - select_clause:
-        - keyword: SELECT
-        - select_clause_element:
-          - expression:
-            - column_reference:
-              - naked_identifier: start_time
-            - time_zone_grammar:
-              - keyword: AT
-              - keyword: TIME
-              - keyword: ZONE
-              - quoted_literal: '''UTC'''
-          - alias_expression:
-            - keyword: AS
-            - naked_identifier: start_utc
-        - comma: ','
-        - select_clause_element:
-          - expression:
-            - column_reference:
-              - naked_identifier: end_time
-            - time_zone_grammar:
-              - keyword: AT
-              - keyword: TIME
-              - keyword: ZONE
-              - quoted_literal: '''UTC'''
-          - alias_expression:
-            - keyword: AS
-            - naked_identifier: end_utc
-        - comma: ','
-        - select_clause_element:
-          - expression:
-            - column_reference:
-              - naked_identifier: duration_minutes
-            - comparison_operator:
-              - raw_comparison_operator: =
-            - function:
-              - function:
-                - function_name_identifier: DATEDIFF
-                - bracketed:
-                  - start_bracket: (
-                  - keyword: MINUTE
-                  - comma: ','
-                  - column_reference:
-                    - naked_identifier: start_time
-                  - time_zone_grammar:
-                    - keyword: AT
-                    - keyword: TIME
-                    - keyword: ZONE
-                    - quoted_literal: '''UTC'''
-                  - comma: ','
-                  - column_reference:
-                    - naked_identifier: end_time
-                  - time_zone_grammar:
-                    - keyword: AT
-                    - keyword: TIME
-                    - keyword: ZONE
-                    - quoted_literal: '''UTC'''
-                  - end_bracket: )
-      - from_clause:
-        - keyword: FROM
-        - from_expression:
-          - from_expression_element:
-            - table_expression:
-              - table_reference:
-                - object_reference:
-                  - naked_identifier: sessions
-  - statement_terminator: ;
-  - statement:
-    - select_statement:
-      - select_clause:
-        - keyword: SELECT
-        - select_clause_element:
+      - groupby_clause:
+        - groupby_clause:
+          - keyword: GROUP
+          - keyword: BY
           - expression:
             - function:
               - function_name:
-                - function_name_identifier: GETDATE
+                - function_name_identifier: DATE
               - function_contents:
                 - bracketed:
                   - start_bracket: (
+                  - expression:
+                    - column_reference:
+                      - naked_identifier: transaction_time
+                    - time_zone_grammar:
+                      - keyword: AT
+                      - keyword: TIME
+                      - keyword: ZONE
+                      - quoted_literal: '''UTC'''
                   - end_bracket: )
+      - having_clause:
+        - keyword: HAVING
+        - expression:
+          - function:
+            - function_name:
+              - function_name_identifier: MAX
+            - function_contents:
+              - bracketed:
+                - start_bracket: (
+                - expression:
+                  - column_reference:
+                    - naked_identifier: transaction_time
+                  - time_zone_grammar:
+                    - keyword: AT
+                    - keyword: TIME
+                    - keyword: ZONE
+                    - quoted_literal: '''UTC'''
+                - end_bracket: )
+          - comparison_operator:
+            - raw_comparison_operator: '>'
+          - quoted_literal: '''2024-01-01'''
+  - statement_terminator: ;
+  - statement:
+    - select_statement:
+      - select_clause:
+        - keyword: SELECT
+        - select_clause_element:
+          - column_reference:
+            - naked_identifier: user_id
+        - comma: ','
+        - select_clause_element:
+          - expression:
+            - column_reference:
+              - naked_identifier: login_time
             - time_zone_grammar:
               - keyword: AT
               - keyword: TIME
@@ -237,7 +606,217 @@ file:
               - quoted_literal: '''Pacific Standard Time'''
           - alias_expression:
             - keyword: AS
-            - naked_identifier: current_pacific_time
+            - naked_identifier: pst_login
+        - comma: ','
+        - select_clause_element:
+          - function:
+            - function_name:
+              - function_name_identifier: LAG
+            - function_contents:
+              - bracketed:
+                - start_bracket: (
+                - expression:
+                  - column_reference:
+                    - naked_identifier: login_time
+                  - time_zone_grammar:
+                    - keyword: AT
+                    - keyword: TIME
+                    - keyword: ZONE
+                    - quoted_literal: '''Pacific Standard Time'''
+                - comma: ','
+                - expression:
+                  - numeric_literal: '1'
+                - end_bracket: )
+            - over_clause:
+              - keyword: OVER
+              - bracketed:
+                - start_bracket: (
+                - window_specification:
+                  - partitionby_clause:
+                    - keyword: PARTITION
+                    - keyword: BY
+                    - expression:
+                      - column_reference:
+                        - naked_identifier: user_id
+                  - orderby_clause:
+                    - keyword: ORDER
+                    - keyword: BY
+                    - column_reference:
+                      - naked_identifier: login_time
+                - end_bracket: )
+          - alias_expression:
+            - keyword: AS
+            - naked_identifier: previous_pst_login
+      - from_clause:
+        - keyword: FROM
+        - from_expression:
+          - from_expression_element:
+            - table_expression:
+              - table_reference:
+                - object_reference:
+                  - naked_identifier: user_sessions
+  - statement_terminator: ;
+  - statement:
+    - select_statement:
+      - select_clause:
+        - keyword: SELECT
+        - select_clause_element:
+          - column_reference:
+            - naked_identifier: employee_id
+        - comma: ','
+        - select_clause_element:
+          - expression:
+            - bracketed:
+              - start_bracket: (
+              - expression:
+                - select_statement:
+                  - select_clause:
+                    - keyword: SELECT
+                    - select_clause_element:
+                      - function:
+                        - function_name:
+                          - function_name_identifier: MAX
+                        - function_contents:
+                          - bracketed:
+                            - start_bracket: (
+                            - expression:
+                              - column_reference:
+                                - naked_identifier: check_in
+                              - time_zone_grammar:
+                                - keyword: AT
+                                - keyword: TIME
+                                - keyword: ZONE
+                                - quoted_literal: '''UTC'''
+                            - end_bracket: )
+                  - from_clause:
+                    - keyword: FROM
+                    - from_expression:
+                      - from_expression_element:
+                        - table_expression:
+                          - table_reference:
+                            - object_reference:
+                              - naked_identifier: attendance
+                  - where_clause:
+                    - keyword: WHERE
+                    - expression:
+                      - column_reference:
+                        - naked_identifier: attendance
+                        - dot: .
+                        - naked_identifier: emp_id
+                      - comparison_operator:
+                        - raw_comparison_operator: =
+                      - column_reference:
+                        - naked_identifier: employees
+                        - dot: .
+                        - naked_identifier: employee_id
+              - end_bracket: )
+          - alias_expression:
+            - keyword: AS
+            - naked_identifier: last_checkin_utc
+      - from_clause:
+        - keyword: FROM
+        - from_expression:
+          - from_expression_element:
+            - table_expression:
+              - table_reference:
+                - object_reference:
+                  - naked_identifier: employees
+  - statement_terminator: ;
+  - statement:
+    - with_compound_statement:
+      - keyword: WITH
+      - common_table_expression:
+        - naked_identifier: timezone_data
+        - keyword: AS
+        - bracketed:
+          - start_bracket: (
+          - select_statement:
+            - select_clause:
+              - keyword: SELECT
+              - select_clause_element:
+                - column_reference:
+                  - naked_identifier: record_id
+              - comma: ','
+              - select_clause_element:
+                - expression:
+                  - column_reference:
+                    - naked_identifier: created_at
+                  - time_zone_grammar:
+                    - keyword: AT
+                    - keyword: TIME
+                    - keyword: ZONE
+                    - quoted_literal: '''Mountain Standard Time'''
+                - alias_expression:
+                  - keyword: AS
+                  - naked_identifier: mst_time
+              - comma: ','
+              - select_clause_element:
+                - expression:
+                  - column_reference:
+                    - naked_identifier: modified_at
+                  - time_zone_grammar:
+                    - keyword: AT
+                    - keyword: TIME
+                    - keyword: ZONE
+                    - quoted_literal: '''Mountain Standard Time'''
+                - alias_expression:
+                  - keyword: AS
+                  - naked_identifier: mst_modified
+            - from_clause:
+              - keyword: FROM
+              - from_expression:
+                - from_expression_element:
+                  - table_expression:
+                    - table_reference:
+                      - object_reference:
+                        - naked_identifier: audit_log
+          - end_bracket: )
+      - select_statement:
+        - select_clause:
+          - keyword: SELECT
+          - select_clause_element:
+            - wildcard_expression:
+              - wildcard_identifier:
+                - star: '*'
+        - from_clause:
+          - keyword: FROM
+          - from_expression:
+            - from_expression_element:
+              - table_expression:
+                - table_reference:
+                  - object_reference:
+                    - naked_identifier: timezone_data
+        - where_clause:
+          - keyword: WHERE
+          - expression:
+            - column_reference:
+              - naked_identifier: mst_time
+            - comparison_operator:
+              - raw_comparison_operator: '>'
+            - function:
+              - function:
+                - function_name_identifier: DATEADD
+                - bracketed:
+                  - start_bracket: (
+                  - keyword: DAY
+                  - comma: ','
+                  - numeric_literal:
+                    - sign_indicator: '-'
+                    - numeric_literal: '7'
+                  - comma: ','
+                  - function:
+                    - function_name:
+                      - function_name_identifier: GETDATE
+                    - function_contents:
+                      - bracketed:
+                        - start_bracket: (
+                        - end_bracket: )
+                  - time_zone_grammar:
+                    - keyword: AT
+                    - keyword: TIME
+                    - keyword: ZONE
+                    - quoted_literal: '''Mountain Standard Time'''
+                  - end_bracket: )
   - statement_terminator: ;
   - statement:
     - select_statement:
@@ -257,31 +836,40 @@ file:
                   - naked_identifier: orders
             - alias_expression:
               - naked_identifier: o
-          - join_clause:
-            - keyword: INNER
-            - keyword: JOIN
-            - from_expression_element:
-              - table_expression:
-                - table_reference:
-                  - object_reference:
-                    - naked_identifier: shipments
-              - alias_expression:
-                - naked_identifier: s
-            - join_on_condition:
-              - join_on_condition:
-                - keyword: ON
+      - where_clause:
+        - keyword: WHERE
+        - expression:
+          - expression:
+            - keyword: EXISTS
+            - bracketed:
+              - start_bracket: (
+              - select_statement:
+                - select_clause:
+                  - word: SELECT
+                  - expression:
+                    - numeric_literal: '1'
+                - word: FROM
+                - from_expression:
+                  - from_expression_element:
+                    - table_expression:
+                      - table_reference:
+                        - object_reference:
+                          - naked_identifier: shipments
+                    - alias_expression:
+                      - naked_identifier: s
+                - word: WHERE
                 - expression:
+                  - column_reference:
+                    - naked_identifier: s
+                    - dot: .
+                    - naked_identifier: order_id
+                  - comparison_operator:
+                    - raw_comparison_operator: =
                   - column_reference:
                     - naked_identifier: o
                     - dot: .
-                    - naked_identifier: order_date
-                  - time_zone_grammar:
-                    - keyword: AT
-                    - keyword: TIME
-                    - keyword: ZONE
-                    - quoted_literal: '''UTC'''
-                  - comparison_operator:
-                    - raw_comparison_operator: =
+                    - naked_identifier: order_id
+                  - binary_operator: AND
                   - column_reference:
                     - naked_identifier: s
                     - dot: .
@@ -291,94 +879,17 @@ file:
                     - keyword: TIME
                     - keyword: ZONE
                     - quoted_literal: '''UTC'''
-  - statement_terminator: ;
-  - statement:
-    - select_statement:
-      - select_clause:
-        - keyword: SELECT
-        - select_clause_element:
-          - expression:
-            - column_reference:
-              - naked_identifier: dt
-            - time_zone_grammar:
-              - keyword: AT
-              - keyword: TIME
-              - keyword: ZONE
-              - quoted_literal: '''UTC'''
-          - alias_expression:
-            - keyword: AS
-            - naked_identifier: utc_time
-        - comma: ','
-        - select_clause_element:
-          - expression:
-            - column_reference:
-              - naked_identifier: dt
-            - time_zone_grammar:
-              - keyword: AT
-              - keyword: TIME
-              - keyword: ZONE
-              - quoted_literal: '''Eastern Standard Time'''
-          - alias_expression:
-            - keyword: AS
-            - naked_identifier: est_time
-        - comma: ','
-        - select_clause_element:
-          - expression:
-            - column_reference:
-              - naked_identifier: dt
-            - time_zone_grammar:
-              - keyword: AT
-              - keyword: TIME
-              - keyword: ZONE
-              - quoted_literal: '''Central Standard Time'''
-          - alias_expression:
-            - keyword: AS
-            - naked_identifier: cst_time
-        - comma: ','
-        - select_clause_element:
-          - expression:
-            - column_reference:
-              - naked_identifier: dt
-            - time_zone_grammar:
-              - keyword: AT
-              - keyword: TIME
-              - keyword: ZONE
-              - quoted_literal: '''Mountain Standard Time'''
-          - alias_expression:
-            - keyword: AS
-            - naked_identifier: mst_time
-        - comma: ','
-        - select_clause_element:
-          - expression:
-            - column_reference:
-              - naked_identifier: dt
-            - time_zone_grammar:
-              - keyword: AT
-              - keyword: TIME
-              - keyword: ZONE
-              - quoted_literal: '''Pacific Standard Time'''
-          - alias_expression:
-            - keyword: AS
-            - naked_identifier: pst_time
-        - comma: ','
-        - select_clause_element:
-          - expression:
-            - column_reference:
-              - naked_identifier: dt
-            - time_zone_grammar:
-              - keyword: AT
-              - keyword: TIME
-              - keyword: ZONE
-              - quoted_literal: '''Central European Standard Time'''
-          - alias_expression:
-            - keyword: AS
-            - naked_identifier: cet_time
-      - from_clause:
-        - keyword: FROM
-        - from_expression:
-          - from_expression_element:
-            - table_expression:
-              - table_reference:
-                - object_reference:
-                  - naked_identifier: datetime_table
+                  - comparison_operator:
+                    - raw_comparison_operator: <
+                    - raw_comparison_operator: =
+                  - column_reference:
+                    - naked_identifier: o
+                    - dot: .
+                    - naked_identifier: required_date
+                  - time_zone_grammar:
+                    - keyword: AT
+                    - keyword: TIME
+                    - keyword: ZONE
+                    - quoted_literal: '''UTC'''
+              - end_bracket: )
   - statement_terminator: ;
