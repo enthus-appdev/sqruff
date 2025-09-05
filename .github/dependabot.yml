@@ -1,14 +1,67 @@
 version: 2
 updates:
-  - package-ecosystem: "cargo"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-  - package-ecosystem: "github-actions"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-  - package-ecosystem: "npm"
-    directory: "/"
-    schedule:
-      interval: "weekly"
+    - package-ecosystem: npm
+      directory: /editors/code
+      schedule:
+        interval: daily
+        time: "04:00"
+      labels:
+        - dependencies
+        - javascript
+      versioning-strategy: increase
+      commit-message:
+        prefix: chore
+        prefix-development: chore
+        include: scope
+    - package-ecosystem: npm
+      directory: /
+      schedule:
+        interval: daily
+        time: "04:00"
+      labels:
+        - dependencies
+        - javascript
+      versioning-strategy: increase
+      commit-message:
+        prefix: chore
+        prefix-development: chore
+        include: scope
+    - package-ecosystem: npm
+      directory: /playground
+      schedule:
+        interval: daily
+        time: "04:00"
+      labels:
+        - dependencies
+        - javascript
+      versioning-strategy: increase
+      commit-message:
+        prefix: chore
+        prefix-development: chore
+        include: scope
+    - package-ecosystem: docker
+      directory: /
+      schedule:
+        interval: daily
+        time: "04:00"
+      labels:
+        - dependencies
+        - docker
+      commit-message:
+        prefix: chore
+        include: scope
+    - package-ecosystem: github-actions
+      directory: /
+      schedule:
+        interval: daily
+        time: "04:00"
+      labels:
+        - dependencies
+        - github-actions
+      commit-message:
+        prefix: chore
+        include: scope
+    - package-ecosystem: cargo
+      directory: /
+      schedule:
+        interval: weekly
