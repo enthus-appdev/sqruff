@@ -39,17 +39,6 @@ updates:
         prefix: chore
         prefix-development: chore
         include: scope
-    - package-ecosystem: github-actions
-      directory: /
-      schedule:
-        interval: daily
-        time: "04:00"
-      labels:
-        - dependencies
-        - github-actions
-      commit-message:
-        prefix: chore
-        include: scope
     - package-ecosystem: docker
       directory: /
       schedule:
@@ -58,6 +47,17 @@ updates:
       labels:
         - dependencies
         - docker
+      commit-message:
+        prefix: chore
+        include: scope
+    - package-ecosystem: github-actions
+      directory: /
+      schedule:
+        interval: daily
+        time: "04:00"
+      labels:
+        - dependencies
+        - github-actions
       commit-message:
         prefix: chore
         include: scope
